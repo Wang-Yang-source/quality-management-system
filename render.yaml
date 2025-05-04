@@ -8,14 +8,6 @@ services:
     envVars:
       - key: PORT
         value: 80
-      - key: NODE_ENV
-        value: production
     healthCheckPath: /
-    # 可选：添加持久化存储
-    disk:
-      name: data
-      mountPath: /app/data
-      sizeGB: 1
-    # 使用预编译的后端可执行文件的配置
-    buildCommand: echo "Skipping build - using precompiled executable"
-    startCommand: ./startup.sh
+    # 仅部署前端应用，无需持久化存储或额外构建命令
+    autoDeploy: true

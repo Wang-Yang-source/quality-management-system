@@ -7,35 +7,24 @@ RUN npm ci
 COPY frontend/ ./
 RUN npm run build
 
-# 后端构建
-FROM node:16-alpine AS backend-build
-WORKDIR /app/backend
-COPY backend/package.json ./
-RUN npm ci
-
 # 最终镜像
-FROM node:16-alpine
+FROM nginx:alpine
 
-# 安装nginx
-RUN apk add --no-cache nginx
+# 安装 envsubst
+RUN apk add --no-cache gettext
 
 # 复制前端文件到nginx目录
 COPY --from=frontend-build /app/frontend/build /usr/share/nginx/html
 
-# 设置后端
-WORKDIR /app
-COPY --from=backend-build /app/backend/node_modules ./node_modules
-COPY backend/server.js ./server.js
-
 # 复制nginx配置
-COPY docker/nginx.conf /etc/nginx/http.d/default.conf
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 
 # 复制启动脚本
-COPY docker/startup.sh ./
-RUN chmod +x ./startup.sh
+COPY docker/entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 
-# 暴露HTTP和API端口
-EXPOSE 80 8080
+# 配置端口
+EXPOSE 80
 
 # 启动应用
-CMD ["./startup.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
