@@ -8,6 +8,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # 包含头文件目录
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
+# 添加nlohmann/json.hpp的路径
+include_directories(${PROJECT_SOURCE_DIR}/include/nlohmann)
+
 # 创建目标文件
 add_library(statistics_lib
   src/statistics.cpp
