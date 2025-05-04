@@ -209,7 +209,7 @@
 ## 📊 项目演示
 
 ### 数据生成界面
-![数据生成界面](screenshots/data-generation.png)
+![数据生成界面](screenshots/Final.gif)
 
 ### 统计分析界面
 ![统计分析界面](screenshots/statistical-analysis.png)
