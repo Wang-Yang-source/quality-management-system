@@ -9,18 +9,24 @@ import {
     ProcessAssessment
 } from '../types';
 
-// 配置API基础URL
-const API_BASE_URL = '/api';
+// 配置API基础URL - 根据环境设置不同的URL
+const API_BASE_URL = process.env.NODE_ENV === 'production'
+    ? '/api'  // 生产环境使用相对路径，通过Nginx代理
+    : 'http://localhost:3001';  // 开发环境直接连接localhost:3001
 
-// 强制使用模拟数据模式，因为在Render环境中没有后端服务
-const USE_MOCK_DATA = false; // 在Render环境中使用真实数据，其他环境使用模拟数据
-// const USE_MOCK_DATA = true; // 在本地开发环境中使用模拟数据
+// 判断是否为Render云平台环境
+const isRenderPlatform = window.location.hostname.includes('onrender.com');
+
+// 是否使用模拟数据
+// 在开发环境时可手动切换，在Render平台上根据具体情况自动决定
+const USE_MOCK_DATA = isRenderPlatform ? true : false;
 
 // 打印环境信息，方便调试
 console.log('API环境信息:', {
     apiBaseUrl: API_BASE_URL,
-    useMockData: USE_MOCK_DATA,
-    environment: 'render-free-tier'
+    isProduction: process.env.NODE_ENV === 'production',
+    isRenderPlatform,
+    useMockData: USE_MOCK_DATA
 });
 
 // 创建axios实例

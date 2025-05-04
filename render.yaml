@@ -1,10 +1,14 @@
 services:
-  # 前端服务 - 完全免费
-  - type: static_site
+  # 前端服务配置
+  - type: web
     name: qms-frontend
+    env: static
     buildCommand: cd frontend && npm install && npm run build
-    publishDir: frontend/build
-    # 配置路由重写，支持SPA应用
+    staticPublishPath: ./frontend/build
+    # 配置在端口3000上运行
+    envVars:
+      - key: PORT
+        value: "3000"
     routes:
       - type: rewrite
         source: /*
@@ -13,20 +17,17 @@ services:
       - path: /*
         name: Access-Control-Allow-Origin
         value: "*"
-    envVars:
-      - key: REACT_APP_USE_MOCK_DATA
-        value: "true"
 
-  # 后端服务（使用Docker）
-  # 注意：这也使用免费计划，但不活跃15分钟后会休眠
+  # 后端服务配置
   - type: web
     name: qms-backend
     env: docker
-    region: singapore  # 亚洲区域，通常访问更快
+    region: singapore  # 亚洲区域，访问更快
     plan: free  # 使用免费计划
     dockerfilePath: docker/Dockerfile.render
     dockerContext: .
     healthCheckPath: /health
+    # 配置在端口3001上运行
     envVars:
       - key: PORT
-        value: "10000"
+        value: "3001"
