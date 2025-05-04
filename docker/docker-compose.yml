@@ -1,16 +1,16 @@
-version: '3.8'
+version: '3'
 
 services:
   backend:
     build:
       context: ..
       dockerfile: docker/Dockerfile.backend
-    container_name: quality-management-backend
-    restart: unless-stopped
+    container_name: qms-backend
+    restart: always
     ports:
-      - "3002:3002"
+      - "8080:8080"
     networks:
-      - quality-management-network
+      - qms-network
     volumes:
       - backend-data:/app/data
     healthcheck:
@@ -27,14 +27,14 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile.frontend
-    container_name: quality-management-frontend
-    restart: unless-stopped
+    container_name: qms-frontend
+    restart: always
     depends_on:
       - backend
     ports:
       - "80:80"
     networks:
-      - quality-management-network
+      - qms-network
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost"]
       interval: 30s
@@ -43,7 +43,7 @@ services:
       start_period: 10s
 
 networks:
-  quality-management-network:
+  qms-network:
     driver: bridge
 
 volumes:

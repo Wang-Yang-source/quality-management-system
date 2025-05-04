@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: quality-management-system
+    env: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PORT
+        value: 80
+    healthCheckPath: /
+    # 如果需要持久化存储
+    disk:
+      name: data
+      mountPath: /app/data
+      sizeGB: 1
