@@ -1,0 +1,357 @@
+/* 全局样式文件 */
+
+/* 基础样式重置 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f0f2f5;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+#root {
+    min-height: 100vh;
+}
+
+/* Flexbox 布局样式 */
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-around {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.flex-start {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.flex-end {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.flex-nowrap {
+    flex-wrap: nowrap;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.flex-2 {
+    flex: 2;
+}
+
+.flex-3 {
+    flex: 3;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.flex-shrink-0 {
+    flex-shrink: 0;
+}
+
+/* 布局样式 */
+.layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0 50px;
+    margin-top: 20px;
+}
+
+.row-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -8px;
+}
+
+.col-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 8px;
+    box-sizing: border-box;
+}
+
+.col-lg-8 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+}
+
+.col-lg-16 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+}
+
+/* 卡片样式增强 */
+.ant-card {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.ant-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.ant-card:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.status-card {
+    border-radius: 8px;
+    background-color: #fafafa;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.status-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 控制图样式 */
+.control-chart {
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* 动画增强 */
+.ant-table-row {
+    transition: background-color 0.3s ease;
+}
+
+.ant-table-row:hover {
+    background-color: rgba(24, 144, 255, 0.05);
+}
+
+/* 结论卡片样式 */
+.conclusion-card {
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 图表容器样式 */
+.chart-container {
+    position: relative;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+    display: flex;
+    flex-direction: column;
+}
+
+/* 统计信息容器 */
+.stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -8px;
+}
+
+.stats-item {
+    flex: 1 1 200px;
+    padding: 0 8px;
+    margin-bottom: 16px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .ant-layout-content {
+        padding: 0 12px !important;
+    }
+
+    .ant-divider-with-text {
+        margin: 12px 0;
+    }
+
+    .col-lg-8, .col-lg-16 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .flex-row {
+        flex-direction: column;
+    }
+}
+
+/* 数据表格高亮 */
+.highlight-row {
+    background-color: rgba(24, 144, 255, 0.1);
+}
+
+.out-of-control {
+    background-color: rgba(245, 34, 45, 0.1);
+}
+
+/* 页面过渡动画 */
+.page-enter {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.page-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 300ms, transform 300ms;
+}
+
+.page-exit {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.page-exit-active {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 300ms, transform 300ms;
+}
+
+/* 标签页样式加强 */
+.ant-tabs-nav {
+    display: flex;
+}
+
+.ant-tabs-nav-list {
+    display: flex;
+    flex: 1;
+}
+
+.ant-tabs-tab {
+    transition: all 0.3s ease;
+}
+
+.ant-tabs-tab:hover {
+    color: #1890ff;
+    transform: translateY(-2px);
+}
+
+.ant-tabs-tab-active {
+    font-weight: 500;
+}
+
+/* 按钮动画 */
+.ant-btn {
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.ant-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 统计数值动画效果 */
+.ant-statistic-content {
+    transition: color 0.3s ease;
+}
+
+.ant-statistic:hover .ant-statistic-content {
+    color: #1890ff;
+}
+
+/* 表单样式 */
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 操作栏样式 */
+.action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.action-bar > * {
+    margin-bottom: 8px;
+}
+
+/* 数据列表样式 */
+.data-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -8px;
+}
+
+.data-list-item {
+    flex: 0 0 calc(33.333333% - 16px);
+    margin: 0 8px 16px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 992px) {
+    .data-list-item {
+        flex: 0 0 calc(50% - 16px);
+    }
+}
+
+@media (max-width: 576px) {
+    .data-list-item {
+        flex: 0 0 calc(100% - 16px);
+    }
+}

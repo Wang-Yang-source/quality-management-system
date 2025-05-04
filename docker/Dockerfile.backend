@@ -1,0 +1,38 @@
+FROM gcc:latest AS build
+
+WORKDIR /app
+
+# 安装构建依赖
+RUN apt-get update && apt-get install -y \
+    cmake \
+    && rm -rf /var/lib/apt/lists/*
+
+# 复制CMakeLists.txt和源代码
+COPY backend/CMakeLists.txt .
+COPY backend/src/ ./src/
+COPY backend/include/ ./include/
+
+# 构建应用
+RUN mkdir -p build && \
+    cd build && \
+    cmake .. -DCMAKE_BUILD_TYPE=Release && \
+    cmake --build .
+
+# 使用更小的基础镜像
+FROM debian:bullseye-slim
+
+# 安装运行时依赖
+RUN apt-get update && apt-get install -y \
+    libstdc++6 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# 仅复制构建好的可执行文件
+COPY --from=build /app/build/quality_management_server .
+
+# 暴露API端口
+EXPOSE 3002
+
+# 运行服务器
+CMD ["./quality_management_server"]

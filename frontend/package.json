@@ -1,0 +1,42 @@
+{
+    "name": "quality-management-frontend",
+    "version": "1.0.0",
+    "description": "产品质量管理系统前端",
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "dependencies": {
+        "antd": "^5.2.3",
+        "axios": "^1.9.0",
+        "echarts": "^5.4.1",
+        "echarts-for-react": "^3.0.2",
+        "framer-motion": "^10.0.1",
+        "lodash": "^4.17.21",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.8.2",
+        "react-scripts": "5.0.1",
+        "typescript": "^4.9.5"
+    },
+    "devDependencies": {
+        "@types/axios": "^0.14.4",
+        "@types/lodash": "^4.14.191",
+        "@types/react": "^18.0.28",
+        "@types/react-dom": "^18.0.11"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}
