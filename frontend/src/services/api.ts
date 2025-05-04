@@ -9,26 +9,39 @@ import {
     ProcessAssessment
 } from '../types';
 
-// 配置API基础URL，优先使用环境变量
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+// 前端环境变量设置 - 修改为实际的后端URL
+const API_BASE_URL = window.location.hostname.includes('localhost')
+    ? 'http://localhost:3001'  // 本地开发环境
+    : window.location.hostname.includes('qms-frontend')
+        ? 'https://qms-backend.onrender.com'  // Render部署环境
+        : '/api';  // 同一域名下的API代理
 
-// 判断是否为生产环境
-const isProd = process.env.NODE_ENV === 'production';
+// 自动检测是否能连接后端
+const checkBackendConnection = async () => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/health`, {
+            method: 'GET',
+            mode: 'no-cors',
+            cache: 'no-cache',
+        });
+        return true;
+    } catch (error) {
+        console.error('后端连接失败:', error);
+        return false;
+    }
+};
 
-// 自动检测是否在Render.com环境或其他没有后端的环境中
-const isRenderEnvironment = window.location.hostname.includes('onrender.com');
+// 是否使用模拟数据（当后端服务不可用时自动切换）
+let USE_MOCK_DATA = false;
 
-// 是否使用模拟数据（当后端服务不可用时）
-// 在开发环境中: 手动设置为false，会使用本地后端
-// 在生产环境中: 如果没有设置REACT_APP_API_URL环境变量或未能成功连接后端，则使用模拟数据
-const USE_MOCK_DATA = isProd && (API_BASE_URL === 'http://localhost:3001' || window.location.hostname.includes('qms-frontend'));
-
-// 打印环境信息，方便调试
-console.log('API环境信息:', {
-    apiBaseUrl: API_BASE_URL,
-    isProduction: isProd,
-    isRenderEnvironment,
-    useMockData: USE_MOCK_DATA
+// 在应用启动时检测后端连接状态
+checkBackendConnection().then(connected => {
+    USE_MOCK_DATA = !connected;
+    console.log('API环境信息:', {
+        apiBaseUrl: API_BASE_URL,
+        backendConnected: connected,
+        useMockData: USE_MOCK_DATA
+    });
 });
 
 // 创建axios实例

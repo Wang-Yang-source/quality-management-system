@@ -1,26 +1,32 @@
 services:
-  # 前端服务配置
-  - type: web
+  # 前端服务 - 完全免费
+  - type: static_site
     name: qms-frontend
-    env: static
     buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: ./frontend/build
+    publishDir: frontend/build
+    # 配置路由重写，支持SPA应用
     routes:
       - type: rewrite
         source: /*
         destination: /index.html
+    headers:
+      - path: /*
+        name: Access-Control-Allow-Origin
+        value: "*"
     envVars:
-      - key: REACT_APP_API_URL
-        value: https://qms-backend.onrender.com
-  
-  # 后端服务配置
+      - key: REACT_APP_USE_MOCK_DATA
+        value: "true"
+
+  # 后端服务（使用Docker）
+  # 注意：这也使用免费计划，但不活跃15分钟后会休眠
   - type: web
     name: qms-backend
     env: docker
-    dockerfilePath: ./docker/Dockerfile.render
+    region: singapore  # 亚洲区域，通常访问更快
+    plan: free  # 使用免费计划
+    dockerfilePath: docker/Dockerfile.render
     dockerContext: .
-    plan: free
     healthCheckPath: /health
     envVars:
       - key: PORT
-        value: 8080
+        value: "10000"
