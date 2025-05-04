@@ -7,9 +7,9 @@ fi
 # 启动nginx服务
 service nginx start
 
-# 启动后端服务
+# 使用Wine启动Windows后端可执行文件
 cd /app
-./quality_management_server &
+wine quality_management_server.exe &
 
 # 保持容器运行
 tail -f /dev/null

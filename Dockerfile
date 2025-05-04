@@ -7,42 +7,28 @@ RUN npm ci
 COPY frontend/ ./
 RUN npm run build
 
-FROM ubuntu:20.04 AS backend-build
-
-# 安装构建依赖
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    cmake \
-    g++ \
-    && rm -rf /var/lib/apt/lists/*
-
-# 构建后端
+# 后端构建
+FROM node:16-alpine AS backend-build
 WORKDIR /app/backend
-COPY backend/ ./
-RUN mkdir -p build && cd build && \
-    cmake .. && \
-    make -j$(nproc)
+COPY backend/package.json ./
+RUN npm ci
 
 # 最终镜像
-FROM ubuntu:20.04
+FROM node:16-alpine
 
-# 安装运行依赖
-RUN apt-get update && apt-get install -y \
-    nginx \
-    curl \
-    libstdc++6 \
-    && rm -rf /var/lib/apt/lists/*
+# 安装nginx
+RUN apk add --no-cache nginx
 
 # 复制前端文件到nginx目录
-COPY --from=frontend-build /app/frontend/build /var/www/html
+COPY --from=frontend-build /app/frontend/build /usr/share/nginx/html
+
+# 设置后端
+WORKDIR /app
+COPY --from=backend-build /app/backend/node_modules ./node_modules
+COPY backend/server.js ./server.js
 
 # 复制nginx配置
-COPY docker/nginx.conf /etc/nginx/sites-available/default
-
-# 复制后端可执行文件
-WORKDIR /app
-COPY --from=backend-build /app/backend/build/quality_management_server ./
+COPY docker/nginx.conf /etc/nginx/http.d/default.conf
 
 # 复制启动脚本
 COPY docker/startup.sh ./
